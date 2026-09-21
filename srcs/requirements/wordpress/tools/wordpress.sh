@@ -53,6 +53,8 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
         --allow-root
 fi
 
+chown -R www-data:www-data /var/www/html
+
 echo "Démarrage de PHP-FPM..."
 
 exec php-fpm8.2 -F
