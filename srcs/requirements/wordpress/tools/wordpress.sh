@@ -12,15 +12,18 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
     echo "Première initialisation de WordPress..."
     cd /var/www/html
 
-    wp core download --allow-root
+    if [ ! -f "/var/www/html/wp-load.php" ]; then
+        wp core download --allow-root
+    fi
 
     echo "Attente de MariaDB..."
 
-    until mariadb-admin ping \
+    until mariadb \
         -h mariadb \
         -u "${MYSQL_USER}" \
         -p"${DB_PASSWORD}" \
-        --silent; do
+        "${MYSQL_DATABASE}" \
+        -e "SELECT 1;" > /dev/null 2>&1; do
         sleep 2
     done
 
