@@ -1,6 +1,6 @@
 NAME = inception
 
-COMPOSE = sudo docker compose -f srcs/docker-compose.yml
+COMPOSE = docker compose -f srcs/docker-compose.yml
 
 DATA_DIR = /home/sradosav/data
 MARIADB_DIR = $(DATA_DIR)/mariadb
@@ -30,8 +30,8 @@ clean:
 
 fclean:
 	$(COMPOSE) down -v --remove-orphans
-	sudo rm -rf $(MARIADB_DIR)
-	sudo rm -rf $(WORDPRESS_DIR)
+	rm -rf $(MARIADB_DIR)
+	rm -rf $(WORDPRESS_DIR)
 
 re: fclean all
 
