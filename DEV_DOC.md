@@ -49,6 +49,96 @@ Each service is built from its own Dockerfile based on Debian and runs in a dedi
 
 The `.env` file and the `secrets/` directory are local configuration files and must not be committed to Git.
 
+## Initial Setup
+
+After cloning the repository, the local configuration files must be created before building the infrastructure.
+
+### Environment file
+
+Create the `srcs/.env` file:
+
+```bash
+vim srcs/.env
+```
+
+It must contain the following variables:
+
+```env
+DOMAIN_NAME=sradosav.42.fr
+
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wpuser
+
+WP_TITLE=Inception
+
+WP_ADMIN_USER=sradosav
+WP_ADMIN_EMAIL=sradosav@student.42.fr
+
+WP_USER=wpuser
+WP_USER_EMAIL=wpuser@student.42.fr
+```
+
+The administrator username must not contain `admin` or `administrator`.
+
+### Secrets
+
+Create the local secrets directory:
+
+```bash
+mkdir -p secrets
+```
+
+The following secret files are required:
+
+```text
+secrets/db_root_password.txt
+secrets/db_password.txt
+secrets/wp_admin_password.txt
+secrets/wp_user_password.txt
+```
+
+Each file must contain only the corresponding password.
+
+For example:
+
+```bash
+vim secrets/db_root_password.txt
+vim secrets/db_password.txt
+vim secrets/wp_admin_password.txt
+vim secrets/wp_user_password.txt
+```
+
+Do not commit these files to Git.
+
+Before continuing, verify that `.env` and the secret files are ignored:
+
+```bash
+git status
+```
+
+They must not appear as files to be committed.
+
+### Host data directories
+
+The Makefile automatically creates the persistent data directories:
+
+```text
+/home/sradosav/data/mariadb
+/home/sradosav/data/wordpress
+```
+
+No manual creation is required.
+
+### Build
+
+Once the environment file and secrets have been created, build and start the infrastructure from the repository root:
+
+```bash
+make
+```
+
+Docker Compose will build the images, create the network and volumes, and start the three services.
+
 ## Docker Compose
 
 The infrastructure is defined in:
@@ -221,13 +311,13 @@ make status
 The Docker network can be inspected with:
 
 ```bash
-sudo docker network inspect srcs_inception
+docker network inspect srcs_inception
 ```
 
 The volumes can be inspected with:
 
 ```bash
-sudo docker volume inspect srcs_mariadb_data srcs_wordpress_data
+docker volume inspect srcs_mariadb_data srcs_wordpress_data
 ```
 
 The website can be tested with:
