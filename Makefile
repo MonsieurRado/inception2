@@ -30,8 +30,7 @@ clean:
 
 fclean:
 	$(COMPOSE) down -v --remove-orphans
-	sudo rm -rf $(MARIADB_DIR)
-	sudo rm -rf $(WORDPRESS_DIR)
+	sudo rm -rf $(DATA_DIR)
 
 re: fclean all
 
