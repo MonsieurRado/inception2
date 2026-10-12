@@ -30,7 +30,7 @@ clean:
 
 fclean:
 	$(COMPOSE) down -v --remove-orphans
-	sudo rm -rf $(DATA_DIR)
+	rm -rf $(DATA_DIR)
 
 re: fclean all
 
